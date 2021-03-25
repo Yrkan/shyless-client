@@ -63,7 +63,7 @@ function Copyright() {
   );
 }
 
-const Login = (props) => {
+const Login = ({ setAlert }) => {
   const classes = useStyles();
   const [input, setInput] = useState({
     username: "",
@@ -72,9 +72,9 @@ const Login = (props) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    props.setAlert("username & password are required", "danger");
-    if (!input.username && !input.password) {
-      props.setAlert("username & password are required", "danger");
+    if (!input.username || !input.password) {
+      setAlert("username & password are required", "error");
+      return;
     }
     try {
       const config = {
