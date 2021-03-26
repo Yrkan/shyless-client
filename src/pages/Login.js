@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import { setAlert } from "../actions/alert";
 
@@ -168,4 +169,7 @@ const Login = ({ setAlert }) => {
   );
 };
 
+Login.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+};
 export default connect(null, { setAlert })(Login);
