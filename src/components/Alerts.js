@@ -5,11 +5,6 @@ import Alert from "@material-ui/lab/Alert";
 import { removeAlert } from "../actions/alert";
 
 const Alerts = ({ alerts, removeAlert }) => {
-  /*const closeAlert = (id) => {
-    removeAlert(id);
-  };
-  */
-
   const makeAlerts = ({ id, msg, alertType }) => {
     return (
       <Alert key={id} severity={alertType} onClose={() => removeAlert(id)}>
@@ -24,8 +19,10 @@ const Alerts = ({ alerts, removeAlert }) => {
     </Fragment>
   );
 };
+
 Alerts.propTypes = {
   alerts: PropTypes.array.isRequired,
+  removeAlert: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
