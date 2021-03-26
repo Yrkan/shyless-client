@@ -73,10 +73,6 @@ const Login = ({ setAlert }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (!input.username || !input.password) {
-      setAlert("username & password are required", "error");
-      return;
-    }
     try {
       const config = {
         headers: {
@@ -103,17 +99,13 @@ const Login = ({ setAlert }) => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form
-            className={classes.form}
-            noValidate
-            onSubmit={(e) => onSubmit(e)}
-          >
+          <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
             <TextField
               value={input.username}
               onChange={(e) => setInput({ ...input, username: e.target.value })}
               variant="outlined"
               margin="normal"
-              required={true}
+              required
               fullWidth
               id="username"
               label="Username"
@@ -126,7 +118,7 @@ const Login = ({ setAlert }) => {
               onChange={(e) => setInput({ ...input, password: e.target.value })}
               variant="outlined"
               margin="normal"
-              require={true}
+              required
               fullWidth
               name="password"
               label="Password"
