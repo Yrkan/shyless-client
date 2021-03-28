@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { register } from "../actions/auth";
+import { Redirect } from "react-router";
 
 function Copyright() {
   return (
@@ -51,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Register = ({ setAlert, register }) => {
+const Register = ({ setAlert, register, isAuthenticated }) => {
   const classes = useStyles();
   const [input, setInput] = useState({
     username: "",
@@ -76,6 +77,10 @@ const Register = ({ setAlert, register }) => {
       register({ username, email, password });
     }
   };
+
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -179,5 +184,10 @@ const Register = ({ setAlert, register }) => {
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
-export default connect(null, { setAlert, register })(Register);
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+export default connect(mapStateToProps, { setAlert, register })(Register);
