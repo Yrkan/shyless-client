@@ -12,11 +12,11 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { setAlert } from "../actions/alert";
+import { login } from "../actions/auth";
+import { Redirect } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,7 +64,7 @@ function Copyright() {
   );
 }
 
-const Login = ({ setAlert }) => {
+const Login = ({ login, isAuthenticated }) => {
   const classes = useStyles();
   const [input, setInput] = useState({
     username: "",
@@ -73,20 +73,12 @@ const Login = ({ setAlert }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-
-      const res = await axios.post("/api/v1/auth/user/login", input, config);
-      console.log(res.data);
-    } catch (err) {
-      console.log(err);
-    }
+    login(input);
   };
 
+  if (isAuthenticated) {
+    return <Redirect to="/home" />;
+  }
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -162,6 +154,11 @@ const Login = ({ setAlert }) => {
 };
 
 Login.propTypes = {
-  setAlert: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
-export default connect(null, { setAlert })(Login);
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+export default connect(mapStateToProps, { login })(Login);
